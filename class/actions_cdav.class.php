@@ -23,7 +23,7 @@ class ActionsCDav
 		// echo "parameters: ";
 		// print_r($parameters);
 
-		if (!isset($conf->global->CDAV_GENTASK) || intval($conf->global->CDAV_GENTASK) == 0 || $parameters['currentcontext'] != 'projectcard')
+		if (empty($conf->global->CDAV_GENTASK)) || $parameters['currentcontext'] != 'projectcard')
 			return 0;
 
 		if ($action == "confirm_validate" && isset($object->id) && $object->id > 0) {
@@ -31,21 +31,19 @@ class ActionsCDav
 		} elseif (GETPOST('status') != 1 && $action != "confirm_validateProject" || !isset($object->id) || $object->id <= 0)
 			return 0;
 
-		$CDAV_PROJ_USER_ROLE = $conf->global->CDAV_PROJ_USER_ROLE;        // to pick good user in project
-		$CDAV_TASK_USER_ROLE = $conf->global->CDAV_TASK_USER_ROLE;        // role to put on task
-		$CDAV_GENTASK_INI1 = $conf->global->CDAV_GENTASK_INI1;        // initial service
-		$CDAV_GENTASK_INI2 = $conf->global->CDAV_GENTASK_INI2;        // initial service
-		$CDAV_GENTASK_INI3 = $conf->global->CDAV_GENTASK_INI3;        // initial service
-		$CDAV_GENTASK_END1 = $conf->global->CDAV_GENTASK_END1;        // final service
-		$CDAV_GENTASK_END2 = $conf->global->CDAV_GENTASK_END2;        // final service
-		$CDAV_GENTASK_END3 = $conf->global->CDAV_GENTASK_END3;        // final service
-		$CDAV_GENTASK_SERVICE_TAG = $conf->global->CDAV_GENTASK_SERVICE_TAG;        // restrict services
-		$CDAV_EXTRAFIELD_DURATION = $conf->global->CDAV_EXTRAFIELD_DURATION;        // duration in propaldet & commandedet extrafields
-		$CDAV_TASK_HOUR_INI = $conf->global->CDAV_TASK_HOUR_INI;        // begining of a working day
-		$CDAV_TASK_HOUR_END = $conf->global->CDAV_TASK_HOUR_END;        // ending of a working day
-
-		if (isset($conf->global->WEEE_PRODUCT_ID) && intval($conf->global->WEEE_PRODUCT_ID) != 0)
-			$WEEE_PRODUCT_ID = intval($conf->global->WEEE_PRODUCT_ID);        // DEEE ?
+		$CDAV_PROJ_USER_ROLE = ! empty($conf->global->CDAV_PROJ_USER_ROLE) ? intval($conf->global->CDAV_PROJ_USER_ROLE) : 0;        // to pick good user in project
+		$CDAV_TASK_USER_ROLE = ! empty($conf->global->CDAV_TASK_USER_ROLE) ? intval($conf->global->CDAV_TASK_USER_ROLE) : 0;        // role to put on task
+		$CDAV_GENTASK_INI1 = ! empty($conf->global->CDAV_GENTASK_INI1) ? intval($conf->global->CDAV_GENTASK_INI1) : 0;        // initial service
+		$CDAV_GENTASK_INI2 = ! empty($conf->global->CDAV_GENTASK_INI2) ? intval($conf->global->CDAV_GENTASK_INI2) : 0;        // initial service
+		$CDAV_GENTASK_INI3 = ! empty($conf->global->CDAV_GENTASK_INI3) ? intval($conf->global->CDAV_GENTASK_INI3) : 0;        // initial service
+		$CDAV_GENTASK_END1 = ! empty($conf->global->CDAV_GENTASK_END1) ? intval($conf->global->CDAV_GENTASK_END1) : 0;        // final service
+		$CDAV_GENTASK_END2 = ! empty($conf->global->CDAV_GENTASK_END2) ? intval($conf->global->CDAV_GENTASK_END2) : 0;        // final service
+		$CDAV_GENTASK_END3 = ! empty($conf->global->CDAV_GENTASK_END3) ? intval($conf->global->CDAV_GENTASK_END3) : 0;        // final service
+		$CDAV_GENTASK_SERVICE_TAG = ! empty($conf->global->CDAV_GENTASK_SERVICE_TAG) ? intval($conf->global->CDAV_GENTASK_SERVICE_TAG) : 0;        // restrict services
+		$CDAV_EXTRAFIELD_DURATION = ! empty($conf->global->CDAV_EXTRAFIELD_DURATION);        // duration in propaldet & commandedet extrafields
+		$CDAV_TASK_HOUR_INI = ! empty($conf->global->CDAV_TASK_HOUR_INI) ? intval($conf->global->CDAV_TASK_HOUR_INI) : 0;        // begining of a working day
+		$CDAV_TASK_HOUR_END = ! empty($conf->global->CDAV_TASK_HOUR_END) ? intval($conf->global->CDAV_TASK_HOUR_END) : 0;        // ending of a working day
+		$WEEE_PRODUCT_ID = ! empty($conf-global->WEEE_PRODUCT_ID) ? intval($conf->global->WEEE_PRODUCT_ID) : 0;        // DEEE ?
 
 		if ($action == "confirm_validate") {  // button Validate
 			$date_start = $object->date_start;
@@ -71,7 +69,7 @@ class ActionsCDav
 		$result = $db->query($sql);
 		// echo "Result ";
 		// print_r($result);
-		if ($db->num_rows($result) == 0 && isset($user->rights->agenda->allactions->read)) {
+		if ($db->num_rows($result) == 0 && ! empty($user->rights->agenda->allactions->read)) {
 			$db->free($result);
 			//echo "NOTASK";
 
@@ -276,8 +274,8 @@ class ActionsCDav
 				foreach ($rTasksLib as $taskid => $label) {
 					$defaultref = '';
 					$obj = empty($conf->global->PROJECT_TASK_ADDON) ? 'mod_task_simple' : $conf->global->PROJECT_TASK_ADDON;
-					if (!empty($conf->global->PROJECT_TASK_ADDON) && is_readable(DOL_DOCUMENT_ROOT . "/core/modules/project/task/" . $conf->global->PROJECT_TASK_ADDON . ".php")) {
-						require_once DOL_DOCUMENT_ROOT . "/core/modules/project/task/" . $conf->global->PROJECT_TASK_ADDON . '.php';
+					if (!empty($obj) && is_readable(DOL_DOCUMENT_ROOT . "/core/modules/project/task/" . $obj . ".php")) {
+						require_once DOL_DOCUMENT_ROOT . "/core/modules/project/task/" . $obj . '.php';
 						$modTask = new $obj;
 						$defaultref = $modTask->getNextValue($object->thirdparty, null);
 					}

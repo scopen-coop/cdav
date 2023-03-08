@@ -262,7 +262,7 @@ $nodes = array(
 	new DAV\FS\Directory($dolibarr_main_data_root. '/cdav/public')
 );
 // admin can access all dolibarr documents
-if($user->admin)
+if(! empty($user->admin))
 	$nodes[] = new DAV\FS\Directory($dolibarr_main_data_root);
 
 // The server object is responsible for making sense out of the WebDAV protocol

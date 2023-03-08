@@ -100,7 +100,7 @@ elseif($type=='CalDAV')
 	
 	echo '<h3>'.$langs->trans('URLforCalDAV').'</h3>';
 	
-	if(isset($user->rights->agenda->allactions->read) && $user->rights->agenda->allactions->read)
+	if(! empty($user->rights->agenda->allactions->read))
 	{
 		if (versioncompare(versiondolibarrarray(), array(3,7,9))>0)
 			$fk_soc_fieldname = 'fk_soc';
@@ -132,7 +132,7 @@ elseif($type=='ICS')
 
 	echo '<h3>'.$langs->trans('URLforICS').'</h3>';
 	
-	if(isset($user->rights->agenda->allactions->read) && $user->rights->agenda->allactions->read)
+	if(! empty($user->rights->agenda->allactions->read))
 	{
 		if (versioncompare(versiondolibarrarray(), array(3,7,9))>0)
 			$fk_soc_fieldname = 'fk_soc';
