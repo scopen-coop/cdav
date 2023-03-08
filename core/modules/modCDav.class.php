@@ -215,8 +215,8 @@ class modCDav extends DolibarrModules
 									'url'=>'/cdav/cdavurls.php?type=CardDAV&amp;leftmenu=contacts',
 									'langs'=>'cdav@cdav',	        // Lang file to use (without .lang) by module. File must be in langs/code_CODE/ directory.
 									'position'=>190,
-									'enabled'=>'$conf->cdav->enabled',	// Define condition to show or hide menu entry. Use '$conf->mymodule->enabled' if entry must be visible if module is enabled.
-									'perms'=>'$user->rights->societe->contact->lire', // Use 'perms'=>'$user->rights->mymodule->level1->level2' if you want your menu with a permission rules
+									'enabled'=>'! empty($conf->cdav->enabled)',	// Define condition to show or hide menu entry. Use '$conf->mymodule->enabled' if entry must be visible if module is enabled.
+									'perms'=>'! empty($user->rights->societe->contact->lire)', // Use 'perms'=>'$user->rights->mymodule->level1->level2' if you want your menu with a permission rules
 									'target'=>'',
 									'user'=>0);
 
@@ -227,8 +227,8 @@ class modCDav extends DolibarrModules
 									'url'=>'/cdav/cdavurls.php?type=CalDAV&amp;mainmenu=agenda',
 									'langs'=>'cdav@cdav',	        // Lang file to use (without .lang) by module. File must be in langs/code_CODE/ directory.
 									'position'=>190,
-									'enabled'=>'$conf->cdav->enabled',	// Define condition to show or hide menu entry. Use '$conf->mymodule->enabled' if entry must be visible if module is enabled.
-									'perms'=>'$user->rights->agenda->myactions->read', // Use 'perms'=>'$user->rights->mymodule->level1->level2' if you want your menu with a permission rules
+									'enabled'=>'! empty($conf->cdav->enabled)',	// Define condition to show or hide menu entry. Use '$conf->mymodule->enabled' if entry must be visible if module is enabled.
+									'perms'=>'! empty($user->rights->agenda->myactions->read)', // Use 'perms'=>'$user->rights->mymodule->level1->level2' if you want your menu with a permission rules
 									'target'=>'',
 									'user'=>0);
 		
@@ -239,8 +239,8 @@ class modCDav extends DolibarrModules
 									'url'=>'/cdav/cdavurls.php?type=ICS&amp;mainmenu=agenda',
 									'langs'=>'cdav@cdav',	        // Lang file to use (without .lang) by module. File must be in langs/code_CODE/ directory.
 									'position'=>190,
-									'enabled'=>'$conf->cdav->enabled',	// Define condition to show or hide menu entry. Use '$conf->mymodule->enabled' if entry must be visible if module is enabled.
-									'perms'=>'$user->rights->agenda->myactions->read', // Use 'perms'=>'$user->rights->mymodule->level1->level2' if you want your menu with a permission rules
+									'enabled'=>'! empty($conf->cdav->enabled)',	// Define condition to show or hide menu entry. Use '$conf->mymodule->enabled' if entry must be visible if module is enabled.
+									'perms'=>'! empty($user->rights->agenda->myactions->read)', // Use 'perms'=>'$user->rights->mymodule->level1->level2' if you want your menu with a permission rules
 									'target'=>'',
 									'user'=>0);
 		// Add here entries to declare new menus
@@ -254,7 +254,7 @@ class modCDav extends DolibarrModules
 		//							'url'=>'/mymodule/pagetop.php',
 		//							'langs'=>'mylangfile@mymodule',	        // Lang file to use (without .lang) by module. File must be in langs/code_CODE/ directory.
 		//							'position'=>100,
-		//							'enabled'=>'$conf->mymodule->enabled',	// Define condition to show or hide menu entry. Use '$conf->mymodule->enabled' if entry must be visible if module is enabled.
+		//							'enabled'=>'! empty($conf->mymodule->enabled)',	// Define condition to show or hide menu entry. Use '$conf->mymodule->enabled' if entry must be visible if module is enabled.
 		//							'perms'=>'1',			                // Use 'perms'=>'$user->rights->mymodule->level1->level2' if you want your menu with a permission rules
 		//							'target'=>'',
 		//							'user'=>2);				                // 0=Menu for internal users, 1=external users, 2=both
@@ -269,7 +269,7 @@ class modCDav extends DolibarrModules
 		//							'url'=>'/mymodule/pagelevel2.php',
 		//							'langs'=>'mylangfile@mymodule',	        // Lang file to use (without .lang) by module. File must be in langs/code_CODE/ directory.
 		//							'position'=>100,
-		//							'enabled'=>'$conf->mymodule->enabled',  // Define condition to show or hide menu entry. Use '$conf->mymodule->enabled' if entry must be visible if module is enabled. Use '$leftmenu==\'system\'' to show if leftmenu system is selected.
+		//							'enabled'=>'! empty($conf->mymodule->enabled)',  // Define condition to show or hide menu entry. Use '$conf->mymodule->enabled' if entry must be visible if module is enabled. Use '$leftmenu==\'system\'' to show if leftmenu system is selected.
 		//							'perms'=>'1',			                // Use 'perms'=>'$user->rights->mymodule->level1->level2' if you want your menu with a permission rules
 		//							'target'=>'',
 		//							'user'=>2);				                // 0=Menu for internal users, 1=external users, 2=both

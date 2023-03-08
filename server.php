@@ -98,7 +98,7 @@ if(!defined('DOL_DOCUMENT_ROOT'))
 require DOL_DOCUMENT_ROOT.'/core/lib/security2.lib.php';	// auth method
 require_once DOL_DOCUMENT_ROOT.'/contact/class/contact.class.php';
 
-if(!$conf->cdav->enabled)
+if(empty($conf->cdav->enabled))
 	die('module CDav not enabled !');
 
 set_error_handler("exception_error_handler", E_ERROR | E_USER_ERROR |

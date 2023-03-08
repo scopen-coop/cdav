@@ -37,7 +37,7 @@ $langs->load("other");
 $langs->load("cdav@cdav");
 
 // Security check
-if (! $user->admin || $user->design) accessforbidden();
+if (empty($user->admin)) accessforbidden();
 
 $action = GETPOST('action', 'alpha');
 
@@ -174,9 +174,9 @@ llxHeader('', $page_name);
 $linkback='<a href="'.DOL_URL_ROOT.'/admin/modules.php">'.$langs->trans("BackToModuleList").'</a>';
 print_fiche_titre($page_name, $linkback, 'title_setup');
 
-$CDAV_URI_KEY=substr($conf->global->CDAV_URI_KEY,0,8);
-$CDAV_CONTACT_TAG=$conf->global->CDAV_CONTACT_TAG;
-$CDAV_THIRD_SYNC=$conf->global->CDAV_THIRD_SYNC;
+$CDAV_URI_KEY=! empty($conf->global->CDAV_URI_KEY) ? substr($conf->global->CDAV_URI_KEY,0,8) : '';
+$CDAV_CONTACT_TAG=! empty($conf->global->CDAV_CONTACT_TAG) ? $conf->global->CDAV_CONTACT_TAG : '';
+$CDAV_THIRD_SYNC=! empty($conf->global->CDAV_THIRD_SYNC) ? $conf->global->CDAV_THIRD_SYNC : '';
 $CDAV_SYNC_PAST=$conf->global->CDAV_SYNC_PAST;
 $CDAV_SYNC_FUTURE=$conf->global->CDAV_SYNC_FUTURE;
 $CDAV_TASK_SYNC=$conf->global->CDAV_TASK_SYNC;
@@ -312,11 +312,6 @@ print '</table>';
 print '</form>';
 // Show errors
 print "<br>";
-
-dol_htmloutput_errors($object->error, $object->errors);
-
-// Show messages
-dol_htmloutput_mesg($object->mesg, '', 'ok');
 
 // Footer
 llxFooter();
