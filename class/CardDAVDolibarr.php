@@ -1132,6 +1132,8 @@ class Dolibarr extends AbstractBackend implements SyncSupport {
 						$object->addThumbs($dir.'/'.$rdata['photo']);
 				}
 			}
+
+            dol_syslog("User: " . $this->user->login . " create the contact with id : " . $id);
 			return null;
 		}
 		
@@ -1249,6 +1251,8 @@ class Dolibarr extends AbstractBackend implements SyncSupport {
 						$object->addThumbs($dir.'/'.$rdata['photo']);
 				}
 			}
+
+            dol_syslog("User: " . $this->user->login . " update the contact with id : " . $contactid);
 		}
 
 		if(CDAV_THIRD_SYNC>0 && intval($addressbookId)>=CDAV_ADDRESSBOOK_ID_SHIFT)
@@ -1270,7 +1274,9 @@ class Dolibarr extends AbstractBackend implements SyncSupport {
 			$sql.= " WHERE rowid = ".$socid;
 			$res = $this->db->query($sql);
 			$this->db->query($sql);
-		}
+
+            dol_syslog("User: " . $this->user->login . " update the thirdparty with id : " . $socid);
+        }
 		
 		return null;
 	}
@@ -1283,10 +1289,10 @@ class Dolibarr extends AbstractBackend implements SyncSupport {
 	 * @return bool
 	 */
 	function deleteCard($addressbookId, $cardUri) {
- 
+
 		debug_log("deleteContactObject( $addressbookId , $cardUri )");
    
-		if(intval($addressbookId)<CDAV_ADDRESSBOOK_ID_SHIFT && $this->user->rights->societe->contact->supprimer)
+        if(intval($addressbookId)<CDAV_ADDRESSBOOK_ID_SHIFT && $this->user->rights->societe->contact->supprimer)
 		{
 
 			if(strpos($cardUri, '-ct-')>0)
@@ -1299,7 +1305,8 @@ class Dolibarr extends AbstractBackend implements SyncSupport {
 			$sql.= " WHERE rowid = ".$contactid;
 			$res = $this->db->query($sql);
 
-			return true;
+            dol_syslog("User: " . $this->user->login . " disable the contact with id : " . $contactid);
+            return true;
 		}
 
 		if(CDAV_THIRD_SYNC>0 && intval($addressbookId)>=CDAV_ADDRESSBOOK_ID_SHIFT && $this->user->rights->societe->supprimer)
@@ -1315,6 +1322,7 @@ class Dolibarr extends AbstractBackend implements SyncSupport {
 			$sql.= " WHERE rowid = ".$socid;
 			$res = $this->db->query($sql);
 			
+            dol_syslog("User: " . $this->user->login . " disable the contact with id : " . $contactid);
 			return true;
 		}
 		
